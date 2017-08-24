@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-use Auth,Response;
+use Auth,Response,DB;
 use App\User;
 use App\Mobileaccount;
 use App\Transaction;
@@ -61,17 +61,52 @@ class CustomerApiController extends Controller
 
     public function customerPay(Request $request){
     	$respotext="error";
+    	 error_log("server hit");
     	if($this->phoneParse($request->get("phonenumber"))!="invalid"){
     	$transaction= new Transaction;
         $transaction->amount=$request->get("amount");
         $transaction->payerphonenumber=$request->get("phonenumber");
         // need to solve how to get userid from client access token authentification
-        $transaction->userid=1;
+     // begin modification
+        $urlclient=$request->url();
+        error_log($urlclient);
+
+        $clientid=$request->get('clientid');
+        error_log($clientid);
+  //       $accesstoken=$request->header('Authorization');
+
+  //       $accesstoken=str_replace("Bearer", "",$accesstoken);
+
+  //       // $accesstoken=preg_replace('/\s+/', '', $accesstoken);
+  //       error_log($accesstoken);
+
+  //       $clientids = DB::table('oauth_access_tokens')->select('client_id','id')->get();
+
+  //       foreach ($clientids as $tempclientid) {
+  //       	if(strpos($accesstoken, $tempclientid->id)){
+  //       		$clientid=$tempclientid->client_id;
+  //       		break;
+  //       	}
+        	    
+  //       // error_log($tempclientid->id);
+  //      		}
+        
+		// error_log($clientid);        
+        $userid = DB::table('oauth_clients')->where('id',$clientid)->first();
+        error_log($userid->user_id);
+
+// end modification
+
+
+
+
+        $transaction->userid=$userid->user_id;
         $transaction->payeeaccounttype="Mobile";
         $mobile=Mobileaccount::orderBy("id","desc")->first();
         $transaction->payeeaccountid=$mobile->id;
         $transaction->save();
         $respotext="saved";
+        error_log("reached saved");
     	}
     	
         return Response::json($respotext);
@@ -93,7 +128,7 @@ class CustomerApiController extends Controller
     	// $xml2=simplexml_load_string($xml) or die("Error: Cannot create object");
 		
 		$client = new Client(['base_uri'=>'http://192.168.43.80:1334']);
-		//
+		//dfhnk
 		$response=$client->post($uri,['form_params'=>['xml'=>$xmldata]]);
 		// $response = $client->send($request);
 		//$code = $response->getStatusCode(); // 200
