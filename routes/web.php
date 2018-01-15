@@ -42,7 +42,20 @@ Route::post('/update/transactionshowspan', 'HomeController@updateTransactionShow
 Route::get('/get/gettransactionsshowspan', 'HomeController@getTransactionsShowSpan')->name('get.gettransactionsshowspan');
 
 Route::post('/update/phonenumber', 'HomeController@updatePhone')->name('update.phonenumber');
-
-
 Route::get('/sendsms', 'HomeController@sendSMS')->name('sendsms');
+
+
+// temporary user payment
+Route::post('checkoutform_user_details',['as'=>'redirect.checkoutform_user_details','uses'=>'HomeController@redirectCheckoutformUserDetails']);
+
+Route::post('checkoutform_verifyOTP',['as'=>'redirect.checkoutform_verifyOTP','uses'=>'HomeController@redirectCheckoutformVerifyOTP']);
+
+Route::post('checkoutform_password',['as'=>'redirect.checkoutform_password','uses'=>'HomeController@redirectCheckoutformPassword']);
+
+Route::get('checkout',['as'=>'view.checkout','uses'=>'HomeController@viewCheckout']);
+
+Route::get('checkout_verifyOTP/{erid}',['as'=>'view.checkout_verifyOTP','uses'=>'HomeController@viewCheckoutVerifyOTP']);
+
+Route::get('checkout_password',['as'=>'view.checkout_password','uses'=>'HomeController@viewCheckoutPassword']);
+
 

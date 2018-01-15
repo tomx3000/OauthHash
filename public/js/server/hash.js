@@ -1,59 +1,71 @@
-'use strict'
 
-var server_url = "http://192.168.43.80:1334/api";
+var server_url = "http://hash.zatana.net";
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+ 
 
 $("#checkoutform_user_details").on("submit",(e)=>{
        e.preventDefault();
-       var data = {};
-           data.phonenumber = $("#phone").val();
-           data.sid=$(".phonelabel").data('sid');
-       $.ajax({
-                type: 'POST',
-                url: server_url + '/checkoutform_user_details',
-                data: JSON.stringify(data),
-                success: function(data) {
-                    console.log(data);
-                    window.location.href = data.url;
-                },
-                contentType: "application/json",
-                dataType: 'json'
-                });
+  var phonenumber= $("#phone").val();
+ $.ajax({
+            url: '/checkoutform_user_details',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                '_token': CSRF_TOKEN,
+                'phonenumber':phonenumber
+               
+            },
+            success:function(data){
+              console.log("phonenumber success");
+              window.location.href = data.url;
+            },
+            error: function (request){
+              console.log("post failure");
+              },
+
+     });
 });
 
 $("#checkoutform_verifyOTP").on("submit",(e)=>{
        e.preventDefault();
-       var data = {};
-           data.otp = $("#otp").val();
-           data.cid=$(".otplabel").data('cid');
-           data.phonenumber=$(".otplabel").data('phone');
-           console.log("OTP verified");
+       var otp = $("#otp").val();
        $.ajax({
+                url:'/checkoutform_verifyOTP',
                 type: 'POST',
-                url: server_url + '/checkoutform_verifyOTP',
-                data:JSON.stringify(data),
+                dataType: 'json',
+                data: {
+                    '_token': CSRF_TOKEN,
+                    'otp':otp
+                },
                 success: function(data) {
-                    console.log(data);
+                    console.log("otp succes");
                     window.location.href = data.url;
                 },
-                contentType: "application/json",
-                dataType: 'json'
+                error: function (request){
+                  console.log("otp post failure");
+                  },
                 });
 });
 
 $("#checkoutform_password").on("submit",(e)=>{
        e.preventDefault();
-       var data = {};
-           data.otp = $("#password").val();
+           var otp = $("#password").val();
        $.ajax({
+                url:'/checkoutform_password',
                 type: 'POST',
-                url: server_url + '/checkoutform_password',
-                data: JSON.stringify(data),
+                dataType: 'json',
+                data: {
+                    '_token': CSRF_TOKEN,
+                    'otp':otp
+                },
                 success: function(data) {
-                    console.log(data);
+                    console.log("password success");
                     window.location.href = data.url;
                 },
-                contentType: "application/json",
-                dataType: 'json'
+                error: function (request){
+                  console.log("password post failure");
+                  },
+                
                 });
 });
 
