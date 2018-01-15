@@ -29,14 +29,17 @@ Route::post('client/register',['as'=>'client.register','uses'=>'ClientApiControl
 
 
 Route::get('loading',['as'=>'redirect.loading','uses'=>'ClientRedirectPaymentCotroller@redirectLoading']);
-Route::post('checkoutform',['as'=>'redirect.checkoutform','uses'=>'ClientRedirectPaymentCotroller@redirectCheckoutform']);
-Route::post('checkoutform_user_details',['as'=>'redirect.checkoutform_user_details','uses'=>'ClientRedirectPaymentCotroller@redirectCheckoutformUserDetails']);
+Route::post('checkoutform',['as'=>'redirect.checkoutform','uses'=>'ClientRedirectPaymentCotroller@redirectCheckoutform'])->middleware('auth_client');
 
-Route::post('checkoutform_verifyOTP',['as'=>'redirect.checkoutform_verifyOTP','uses'=>'ClientRedirectPaymentCotroller@redirectCheckoutformVerifyOTP']);
-Route::post('checkoutform_password',['as'=>'redirect.checkoutform_password','uses'=>'ClientRedirectPaymentCotroller@redirectCheckoutformPassword']);
 
-Route::get('checkout/{id}',['as'=>'view.checkout','uses'=>'ClientRedirectPaymentCotroller@viewCheckout']);
+//onetime url handling routes
 
-Route::get('checkout_verifyOTP/{id}/{cid}/{erid}',['as'=>'view.checkout_verifyOTP','uses'=>'ClientRedirectPaymentCotroller@viewCheckoutVerifyOTP']);
+Route::get('oneurl/{pass}/{cryptid}',['as'=>'onetime.url','uses'=>'ClientRedirectPaymentCotroller@oneTimeUrlAuth'])->middleware('web');
 
-Route::get('checkout_password/{id}',['as'=>'view.checkout_password','uses'=>'ClientRedirectPaymentCotroller@viewCheckoutPassword']);
+Route::get('testpath',['as'=>'onetime.testurl','uses'=>'ClientRedirectPaymentCotroller@testPath']);
+
+
+//encryption testing route
+Route::get('cipher',['as'=>'onetime.cipher','uses'=>'ClientRedirectPaymentCotroller@testCipher']);
+
+

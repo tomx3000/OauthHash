@@ -58,6 +58,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'cors' => \App\Http\Middleware\Cors::class,
     'auth_client' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
+     'auth_temp' => \App\Http\Middleware\TempUserMiddleWare::class,
+
 
     ];
 }

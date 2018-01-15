@@ -17,8 +17,9 @@ class CreateTemporaryRequestVerifyTable extends Migration
         Schema::create('request_verify', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('clientid');
-            $table->string('otprequestid');
-            $table->string('phonenumber');
+            $table->integer('customerid');
+            $table->string('otprequestid')->nullable();
+            $table->string('phonenumber')->nullable();
             $table->timestamps();
         });
     }
