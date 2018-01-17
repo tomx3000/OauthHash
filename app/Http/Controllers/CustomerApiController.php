@@ -183,16 +183,16 @@ class CustomerApiController extends Controller
 	}
 
 	public function customerPay(Request $request){
-		// error_log("new server hit");
-		// $customer=$this->registerCustomer($request->get("firstname"),$request->get("secondname"),$request->get("lastname"),$request->get("accountnumber"),$request->get("companyname"),$request->get("clientid"));
-		// error_log("customer created");
-		// $account=$this->getAcountToReceivePayment($request->get("accounttype"),$request->get("clientid"),$request->get("companyname"));
-		// error_log("account acquired");
-		// // pay user and hash
-    //
-		// // the log the transaction
-		// $this->logUserCreditTransaction($account,(float)$request->get("amount"),$request->get("description"),$customer,$request->get("accounttype"));
-		// error_log("transaction loged");
+		error_log("new server hit");
+		$customer=$this->registerCustomer($request->get("firstname"),$request->get("secondname"),$request->get("lastname"),$request->get("accountnumber"),$request->get("companyname"),$request->get("clientid"));
+		error_log("customer created");
+		$account=$this->getAcountToReceivePayment($request->get("accounttype"),$request->get("clientid"),$request->get("companyname"));
+		error_log("account acquired");
+		// pay user and hash
+    
+		// the log the transaction
+		$this->logUserCreditTransaction($account,(float)$request->get("amount"),$request->get("description"),$customer,$request->get("accounttype"));
+		error_log("transaction loged");
 		return Response::json("success");
 
 	}

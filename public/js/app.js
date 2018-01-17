@@ -33969,7 +33969,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/tom3000/sites/paymentgateway/resources/assets/js/components/Example.vue"
+Component.options.__file = "/Users/Tom/sites/paymentgateway/resources/assets/js/components/Example.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34007,7 +34007,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/tom3000/sites/paymentgateway/resources/assets/js/components/account/mobile.vue"
+Component.options.__file = "/Users/Tom/sites/paymentgateway/resources/assets/js/components/account/mobile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mobile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34045,7 +34045,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/tom3000/sites/paymentgateway/resources/assets/js/components/account/subscription.vue"
+Component.options.__file = "/Users/Tom/sites/paymentgateway/resources/assets/js/components/account/subscription.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] subscription.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34083,7 +34083,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/tom3000/sites/paymentgateway/resources/assets/js/components/account/transaction.vue"
+Component.options.__file = "/Users/Tom/sites/paymentgateway/resources/assets/js/components/account/transaction.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] transaction.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34121,7 +34121,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/tom3000/sites/paymentgateway/resources/assets/js/components/passport/AuthorizedClients.vue"
+Component.options.__file = "/Users/Tom/sites/paymentgateway/resources/assets/js/components/passport/AuthorizedClients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AuthorizedClients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34159,7 +34159,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/tom3000/sites/paymentgateway/resources/assets/js/components/passport/Clients.vue"
+Component.options.__file = "/Users/Tom/sites/paymentgateway/resources/assets/js/components/passport/Clients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34197,7 +34197,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/tom3000/sites/paymentgateway/resources/assets/js/components/passport/PersonalAccessTokens.vue"
+Component.options.__file = "/Users/Tom/sites/paymentgateway/resources/assets/js/components/passport/PersonalAccessTokens.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PersonalAccessTokens.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -34393,7 +34393,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.hashPay()
       }
     }
-  }, [_vm._v("\n\t\tpay\t \n\t\t")]), _vm._v(" "), _c('br')])
+  }, [_vm._v("\n\t\tpay\n\t\t")]), _vm._v(" "), _c('br')])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -34443,14 +34443,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.updateTransactionShowSpan(_vm.spanday)
       }
     }
-  }, [_vm._v("daily")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("monkey")]), _vm._v(" "), _c('button', {
     class: _vm.selectweekly,
     on: {
       "click": function($event) {
         _vm.updateTransactionShowSpan(_vm.spanweek)
       }
     }
-  }, [_vm._v("weekly")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("tom")]), _vm._v(" "), _c('button', {
     class: _vm.selectmonthly,
     on: {
       "click": function($event) {
