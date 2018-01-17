@@ -35,12 +35,12 @@ class CustomerApiController extends Controller
 
 		  // request
 		 $sampletigoresponse= "<?xml version='1.0'?>
-		  <COMMAND>
-		 <TYPE>RESMFICI</TYPE>
-		  <REFERENCEID>REFERENCEID</REFERENCEID>
-		  <TXNID>42326232</TXNID>
-		  <TXNSTATUS>200</TXNSTATUS>
-		  <MESSAGE>Success</MESSAGE>
+		  <COMMAND>	
+		 <TYPE>RESMFICI</TYPE>	 	
+		  <REFERENCEID>REFERENCEID</REFERENCEID>	  	
+		  <TXNID>42326232</TXNID>	
+		  <TXNSTATUS>200</TXNSTATUS>	 	
+		  <MESSAGE>Success</MESSAGE>	
 		  </COMMAND>";
 
 		$xml=$this->tigoXmlParse($sampletigoresponse);
@@ -73,13 +73,13 @@ class CustomerApiController extends Controller
 	}
 	public function isCustomer($firstname,$secondname,$lastname,$accountnumber,$accounttype,$clientid){
 		error_log("check customer");
-
+		
 		$customer=Customer::where("firstname",strtolower($firstname))->where("secondname",strtolower($secondname))->where("lastname",strtolower($lastname))->where("accountnumber",$accountnumber)->where("accounttype",strtolower($accounttype))->where("clientid",$clientid)->get();
 		return empty($customer);
-
+		
 	}
 	public function registerCustomer($firstname,$secondname,$lastname,$accountnumber,$companyname,$clientid){
-
+		
 		if(!$this->isCustomer($firstname,$secondname,$lastname,$accountnumber,$companyname,$clientid)){
 			error_log("registering customer");
 			$customer = new Customer;
@@ -106,7 +106,7 @@ class CustomerApiController extends Controller
 			 $customer=Customer::where("firstname",strtolower($firstname))->where("secondname",strtolower($secondname))->where("lastname",strtolower($lastname))->where("accountnumber",$accountnumber)->where("accounttype",strtolower($companyname))->where("clientid",$clientid)->first();
 			 return $customer;
 		}
-
+		 
 
 	}
 	public function getAcountToReceivePayment($accounttype,$clientid,$companyname){
@@ -133,7 +133,7 @@ class CustomerApiController extends Controller
 			if($accounttype=="mobile"){
 		$account=UserMobileAccount::where("userid",$clientrow->user_id)->where("companyname",$companyname)->first();
 			}else if($accounttype=="bank"){
-		$account=UserBankAccount::where("userid",$clientrow->user_id)->where("bankname",$companyname)->first();
+		$account=UserBankAccount::where("userid",$clientrow->user_id)->where("bankname",$companyname)->first();	
 			}
 
 		}
@@ -168,8 +168,8 @@ class CustomerApiController extends Controller
 		$hashcredittransaction= new HashCreditTransaction;
 
 		// $hash=Hash::orderBy('id', 'desc')->first();
-
-		// should be hash->id
+		
+		// should be hash->id 
 		$hashcredittransaction->hashid=1;
 		$hashcredittransaction->transactionidfrom=$usercredittransaction->id;
 		$hashcredittransaction->transactiontablefrom="usercredittransactions";
@@ -189,7 +189,7 @@ class CustomerApiController extends Controller
 		$account=$this->getAcountToReceivePayment($request->get("accounttype"),$request->get("clientid"),$request->get("companyname"));
 		error_log("account acquired");
 		// pay user and hash
-    
+
 		// the log the transaction
 		$this->logUserCreditTransaction($account,(float)$request->get("amount"),$request->get("description"),$customer,$request->get("accounttype"));
 		error_log("transaction loged");
@@ -225,11 +225,11 @@ class CustomerApiController extends Controller
   //       		$clientid=$tempclientid->client_id;
   //       		break;
   //       	}
-
+        	    
   //       // error_log($tempclientid->id);
   //      		}
-
-		// error_log($clientid);
+        
+		// error_log($clientid);        
         $userid = DB::table('oauth_clients')->where('id',$clientid)->first();
         error_log($userid->user_id);
 
@@ -243,7 +243,7 @@ class CustomerApiController extends Controller
         $respotext="saved";
         error_log("reached saved");
     	}
-
+    	
         return Response::json($respotext);
 
     }
@@ -252,7 +252,7 @@ class CustomerApiController extends Controller
     }
     public function customerPayment(){
 
-    	//find appropriate account to credit the user
+    	//find appropriate account to credit the user 
     	// also find appropriate account to credit hash
     	// do the neccessary math and then update the respective accounts
 
@@ -260,7 +260,7 @@ class CustomerApiController extends Controller
     }
     public function customerRollbackPayment(){
 
-
+    	
     }
 
     public function customerSubscribe(){
@@ -277,13 +277,13 @@ class CustomerApiController extends Controller
 	public function customerRollbackTransfer(){
 
 
-	}
+	}    
 
     public function phoneParse($phone){
     	if(strpos($phone, "+255")){
     		$phone=str_replace("+255", "0",$phone);
     	}
-
+    	
     	if(strlen($phone)==10 ){
     		return $phone;
     	}else{
@@ -292,7 +292,7 @@ class CustomerApiController extends Controller
     }
     public function postXml($xmldata,$uri){
     	// $xml2=simplexml_load_string($xml) or die("Error: Cannot create object");
-
+		
 		$client = new Client(['base_uri'=>'http://192.168.43.80:1334']);
 		//dfhnk
 		$response=$client->post($uri,['form_params'=>['xml'=>$xmldata]]);
@@ -315,3 +315,4 @@ class CustomerApiController extends Controller
     	}
     }
 }
+     
