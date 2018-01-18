@@ -11,9 +11,48 @@
 |
 */
 
+ use GuzzleHttp\Client;
+ use GuzzleHttp\Exception\ServerException;
+ use GuzzleHttp\Exception\ConnectException;
+ use Response,redirect;
+
 Route::get('/', function () {
     return view('welcome');
 });
+// views for the landing page created by lymo
+Route::get('/product', function () {
+    return view('product');
+});
+Route::get('/pricing', function () {
+    return view('pricing');
+});
+Route::get('/demo', function () {
+    return view('demo');
+});
+Route::post('/demo', function () {
+    $http = new Client(['base_uri' => 'http://hash.zatana.net']);
+	 $responsez = $http->post('/oauth/token', [
+	     'form_params' => [
+	         'grant_type' => 'client_credentials',
+	         'client_id' => '3',
+	         'client_secret' => 'fE86nu2AGdL6wdL3Gnzg02EvPfLuBUizpf7WTif0'
+	     ],
+	 ]);
+	 $resposArr=json_decode((string)$responsez->getBody(), true);
+
+	 $response = $http->request('POST', '/api/checkoutform',
+	   ['headers' => [
+	        'Authorization' => 'Bearer '.$resposArr['access_token'],
+	   ],
+	   'form_params'=>["firstname"=>"thomas","phonenumber"=>"0684905473","client_id"=>"3"]
+
+	 ]);
+
+	$urlarr= json_decode((string)$response->getBody(), true);
+	$url=$urlarr['windowUrl'];
+	 return redirect($url);
+});
+//
 Route::get('/sample',['as'=>'sample','uses'=>'CustomerApiController@sample']);
 Route::post('/sample/testxml',['as'=>'testxml','uses'=>'CustomerApiController@xmlTestReceive']);
 Auth::routes();

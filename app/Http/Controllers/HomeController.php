@@ -20,7 +20,7 @@ use App\UserCreditTransaction;
 use App\UserDebitTransaction;
 use App\UserMobileAccount;
 use Nexmo\Laravel\Facade\Nexmo;
-
+// use App\Http\Controllers\CustomerApiController;
 
 class HomeController extends Controller
 {
@@ -228,15 +228,18 @@ class HomeController extends Controller
     }
 
     public function sendSMS(){
-
-        Nexmo::message()->send([
-            'to'   => '+255755556024',
+         Nexmo::message()->send([
+            'to'   => '+255684905873',
             'from' => 'ZATANA',
-            'text' => 'ZATANA Co. enter temporary key 1274'
+            'text' => 'ZATANA Co.'
                 ]);
-        $okay="okay";
-              
+        
+            $okay="not okay ";
+        
 
+
+            
+              
              return Response::json($okay);
 
     }
@@ -245,23 +248,20 @@ class HomeController extends Controller
     public function redirectCheckoutformUserDetails(Request $request){
          error_log('message here.'.$request->phonenumber);
          $phone=$this->parseTZPhone($request->phonenumber);
+
 // begin neximo sms gen 
             $verification = Nexmo::verify()->start([
             'number' => $phone,
-            'brand'  => 'HAsh inc'
+            'brand'  => 'HAsh inc',
+            'pin_expiry'=>'120',
+            'sender_id'=>'ZATANA'
         ]);
 // end neximo sms gen
 
-   // trying to hold session across request      
-            // $request->session()->put('request_id', $verification->getRequestId());
-          // session(['request_id'=> $verification->getRequestId()]);
-        // session(['request_id'=>'test10122']);
-        // error_log('store session key =>'.$verification->getRequestId());
-// end trying
-
 // database for holding temporary request id, plus sms otp identifier
-
-        $row=DB::table('request_verify')->where('customerid',Auth::user()->id)->orderBy('id', 'desc')->first();
+            $respo=json_decode($verification);
+        if($respo->status==0){
+            $row=DB::table('request_verify')->where('customerid',Auth::user()->id)->orderBy('id', 'desc')->first();
         DB::table('request_verify')
             ->where('id', $row->id)
             ->update(['otprequestid' => $verification->getRequestId(),'phonenumber'=>$phone]);
@@ -269,6 +269,11 @@ class HomeController extends Controller
 
           $data = ['url' => "http://hash.zatana.net/checkout_verifyOTP/new",
                       ];
+        }else{
+            $data = ['url' => "http://hash.zatana.net/checkout/",
+                      ];
+        }
+        
      return Response::json($data);
     }
 
@@ -322,13 +327,6 @@ class HomeController extends Controller
       
 //end uncomment
 
-// remove tremporary placement 
-
-// $data = ['url' => "http://hash.zatana.net/checkout_password",
-//                   ];
-            // return Response::json($data);
-   //end remove temporary placement
-
     }
 
     public function redirectCheckoutformPassword(Request $request){
@@ -370,6 +368,10 @@ class HomeController extends Controller
 
        }
        return $phone;
+    }
+
+    public function testHome(){
+        return Response::json("home");
     }
 
 

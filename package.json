@@ -21,6 +21,25 @@
   },
   "dependencies": {
     "chart.js": "^2.7.0",
+    "express": "^4.16.2",
     "vue-js-modal": "^1.2.11"
-  }
+  },
+  "name": "payment",
+  "description": "authentification",
+  "version": "1.0.0",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomx3000/OauthHash.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomx3000/OauthHash/issues"
+  },
+  "homepage": "https://github.com/tomx3000/OauthHash#readme"
 }

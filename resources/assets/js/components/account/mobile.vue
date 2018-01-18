@@ -34,7 +34,7 @@
 		type	 
 		</div>
 		<div class="btn btn-default btn-lg pull-right" style="box-shadow: 10px 10px 5px #888888; width:50px;" v-on:click="hashPay()">
-		pay	 
+		pay
 		</div>
 		<br>
 		<!-- <button class="btn btn-primary" v-on:click="storeData">test</button>
