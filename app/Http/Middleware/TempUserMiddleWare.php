@@ -19,13 +19,13 @@ class TempUserMiddleWare
 
         // $id=$request->route()->getParameter('id');
   
-       if(!Auth::guest())
+       if(Auth::user()->privillage!=0)
        {
      return $next($request);
       
       }
 
-     return redirect('home');  
+     return redirect('/');  
 
     
 }

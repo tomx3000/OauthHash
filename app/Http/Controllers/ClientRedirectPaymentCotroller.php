@@ -20,14 +20,31 @@ use App\UserCreditTransaction;
 use App\UserDebitTransaction;
 use App\UserMobileAccount;
 use Nexmo\Laravel\Facade\Nexmo;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+use App\HashCreditTransaction;
+use App\Http\Controllers\CustomerApiController;
+
+
+use League\OAuth2\Server\ResourceServer;
+use Illuminate\Auth\AuthenticationException;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class ClientRedirectPaymentCotroller extends Controller
 {
     //
-    public function __construct(){
+    private $server;
+
+    protected $customC;
+    public function __construct(ResourceServer $server)
+    {
+        $this->server = $server;
         $this->middleware('cors');
+       
         // $this->middleware('auth_client');
     }
+ 
 
     public function redirectLoading(){
 
@@ -37,29 +54,51 @@ class ClientRedirectPaymentCotroller extends Controller
 
     public function redirectCheckoutform(Request $request){
     	// $this->log('begin redirect_checkout_form');
-    	
+    	// access the barrier token to get the client id instead of it being passed twice from the customer
     	$path=$this->getOnetimeURL();
-        
-        $encryptedclientid=Crypt::encryptString($request->client_id);
+        $cipher=Crypt::decryptString($path);
+        $credentials=$this->getRouteCredential($cipher);
 
+        // $bearertoken=$this->getBearerToken();
+        // $bearertoken=$request->bearerToken();
 
-    	$data = ['windowUrl' => "http://hash.zatana.net/api/oneurl/".$path.'/'.$encryptedclientid,
+        //getting client from request
+        $psr = (new DiactorosFactory)->createRequest($request);
+        try{
+            $psr=$this->server->validateAuthenticatedRequest($psr);
+           
+            $clientId = $psr->getAttribute('oauth_client_id');
+
+            $encryptedclientid=Crypt::encryptString($clientId);
+
+            $data = ['windowUrl' => "http://hash.zatana.net/api/oneurl/".$path.'/'.$encryptedclientid,
               'title' => 'checkout'
               ];
 
-    	// $this->log('end redirect_checkout_form');
 
-     return Response::json($data);
+              $object= new CustomerApiController;
+            $newcustomer = $object->customerPay($request,$credentials['id'],$clientId);
 
-    // return redirect('www.google.com');
+        return Response::json($data);
+        } catch (OAuthServerException $e) {
+            throw new AuthenticationException;
+        }
 
+        //do this if an exception is thrown
+        //find a better route to redirect a customer incase of any thrown eception 
+        // the redirect should be able to explain to the customer on what is currently going on
+        return Response::json( ['windowUrl' => 'http://hash.zatana.net/',
+              'title' => "not working"
+              ]);
+
+                 
     }
     
  	public function URLisValid($id){
     	// $this->log('begin url_is_valid');
     	// $this->log('id=>'.$id);
     	$user=User::find($id);
-    	if($user->transactionshowspan==0) return true;
+    	if($user->privillage==0) return true;
     	else return false;
     	// $this->log('end url_is_valid');
     }
@@ -100,7 +139,7 @@ class ClientRedirectPaymentCotroller extends Controller
     	// $this->log('begin remove_onetime_url');
     	DB::table('users')
             ->where('id', $id)
-            ->update(['transactionshowspan' => 1]);
+            ->update(['privillage' => 1]);
     	// $this->log('end remove_onetime_url');
 
     }
@@ -113,7 +152,7 @@ class ClientRedirectPaymentCotroller extends Controller
     	$name=$this->getRandomName($namesize);
     	
     $id = DB::table('users')->insertGetId(
-    ['email' =>$email , 'name' => $name,'password'=>bcrypt($password),'transactionshowspan' => 0]
+    ['email' =>$email , 'name' => $name,'password'=>bcrypt($password),'privillage' => 0]
 );	    
 // note here 'transactionshowspan' is hacked to be ussed as a flag for onetime urls
     	// $this->log('end temp_user_create');
@@ -205,6 +244,40 @@ class ClientRedirectPaymentCotroller extends Controller
     	echo '...'.$msg.'...';
     }
 
+
+   public function getAuthorizationHeader(){
+        $headers = null;
+        if (isset($_SERVER['Authorization'])) {
+            $headers = trim($_SERVER["Authorization"]);
+        }
+        else if (isset($_SERVER['HTTP_AUTHORIZATION'])) { //Nginx or fast CGI
+            $headers = trim($_SERVER["HTTP_AUTHORIZATION"]);
+        } elseif (function_exists('apache_request_headers')) {
+            $requestHeaders = apache_request_headers();
+            // Server-side fix for bug in old Android versions (a nice side-effect of this fix means we don't care about capitalization for Authorization)
+            $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)), array_values($requestHeaders));
+            //print_r($requestHeaders);
+            if (isset($requestHeaders['Authorization'])) {
+                $headers = trim($requestHeaders['Authorization']);
+            }
+        }
+        return $headers;
+    }
+/**
+ * get access token from header
+ * */
+    public function getBearerToken() {
+    $headers = $this->getAuthorizationHeader();
+    // HEADER: Get the access token from the header
+    if (!empty($headers)) {
+        if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
+            return $matches[1];
+        }
+    }
+    return null;
+}
+
+
 	public function testCipher(){
 		$word="thomas";
 		$this->log($word);
@@ -215,8 +288,6 @@ class ClientRedirectPaymentCotroller extends Controller
 		$decipher=Crypt::decryptString($ciphertexxt);
 		$this->log($decipher);
 	}   
-
-
 
 
 }

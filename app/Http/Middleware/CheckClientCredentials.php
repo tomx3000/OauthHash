@@ -43,4 +43,5 @@ class CheckClientCredentials
         }
         return $next($request);
     }
+
 }
