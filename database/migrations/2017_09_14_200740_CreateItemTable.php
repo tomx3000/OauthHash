@@ -19,7 +19,7 @@ class CreateItemTable extends Migration
             $table->string('name');
             $table->float('quantity');
             $table->float('price');//price for above quantity
-            $table->string('brand')->nullable();
+            $table->string('brand')->nullable();//used as currency for now
             $table->string('color')->nullable();
             $table->float('size')->nullable();
             $table->string('description')->nullable();

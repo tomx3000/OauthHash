@@ -20,7 +20,7 @@ use App\UserCreditTransaction;
 use App\UserDebitTransaction;
 use App\UserMobileAccount;
 use Nexmo\Laravel\Facade\Nexmo;
-
+// use App\Http\Controllers\CustomerApiController;
 
 class HomeController extends Controller
 {
@@ -32,6 +32,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('auth_temp');
+
     }
 
     /**
@@ -228,149 +230,23 @@ class HomeController extends Controller
     }
 
     public function sendSMS(){
-
-        Nexmo::message()->send([
-            'to'   => '+255755556024',
+        $client=Nexmo::message()->send([
+            'to'   => '+255684905873',
             'from' => 'ZATANA',
-            'text' => 'ZATANA Co. enter temporary key 1274'
+            'text' => 'ZATANA Co.'
                 ]);
-        $okay="okay";
-              
 
+        if($client['status']==0){
+            $okay=" okay ";
+        }else{
+            $okay="not okay ";
+        }
+        
+            
              return Response::json($okay);
 
     }
 
-    //  temp user handlers
-    public function redirectCheckoutformUserDetails(Request $request){
-         error_log('message here.'.$request->phonenumber);
-         $phone=$this->parseTZPhone($request->phonenumber);
-// begin neximo sms gen 
-            $verification = Nexmo::verify()->start([
-            'number' => $phone,
-            'brand'  => 'HAsh inc'
-        ]);
-// end neximo sms gen
-
-   // trying to hold session across request      
-            // $request->session()->put('request_id', $verification->getRequestId());
-          // session(['request_id'=> $verification->getRequestId()]);
-        // session(['request_id'=>'test10122']);
-        // error_log('store session key =>'.$verification->getRequestId());
-// end trying
-
-// database for holding temporary request id, plus sms otp identifier
-
-        $row=DB::table('request_verify')->where('customerid',Auth::user()->id)->orderBy('id', 'desc')->first();
-        DB::table('request_verify')
-            ->where('id', $row->id)
-            ->update(['otprequestid' => $verification->getRequestId(),'phonenumber'=>$phone]);
-
-
-          $data = ['url' => "http://hash.zatana.net/checkout_verifyOTP/new",
-                      ];
-     return Response::json($data);
-    }
-
-    public function redirectCheckoutformVerifyOTP(Request $request){
-         error_log('message OTP.'.$request->otp);
-
-        $data = ['url' => "http://hash.zatana.net/checkout_password",
-                  ];
-
-//begin uncomment
-
-        $results=DB::table('request_verify')->where('customerid',Auth::user()->id)->orderBy('id', 'desc')->first();
-        
-        if(!empty($results)){
-         error_log('get session key =>'.$results->otprequestid);
-        try {
-            Nexmo::verify()->check(
-                $results->otprequestid,
-                $request->otp
-            );
-            $data = ['url' => "http://hash.zatana.net/checkout_password",
-                  ];
-
-         DB::table('request_verify')->where('id', $results->id)->delete();
-         error_log('verified and deleted');
-
-         return Response::json($data);
-        } catch (Exception $e) {
-          
-         error_log('not verified not deleted GOBACK');
-         $data = ['url' => "http://hash.zatana.net/checkout_verifyOTP/old",
-                      ];
-             return Response::json($data);
-         // return redirect()->route('view.checkout_verifyOTP',['id' => $results->phonenumber]);
-            // return redirect()->back()->withErrors([
-            //     'code' => $e->getMessage()
-            // ]);
-     
-        }
-
-        }else{
-            $data = ['url' => "http://hash.zatana.net/",
-                  ];
-         return Response::json($data);
-
-           error_log('not verified and deleted');
-           
-
-        } 
-
-      
-//end uncomment
-
-// remove tremporary placement 
-
-// $data = ['url' => "http://hash.zatana.net/checkout_password",
-//                   ];
-            // return Response::json($data);
-   //end remove temporary placement
-
-    }
-
-    public function redirectCheckoutformPassword(Request $request){
-            $data = ['url' => "http://interface.zatana.net/",
-                  ];
-            return Response::json($data);
-
-    }
-
-    public function viewCheckout(){
-            // $this->log("ckeckout page");
-            error_log("checkout .......");
-            return view('checkout');
-
-    }
-    public function viewCheckoutVerifyOTP($param){
-            $error=$param;
-            return view('checkout_verifyOTP',compact('error'));
-
-
-    }
-    public function viewCheckoutPassword(){
-
-            return view('checkout_password');
-
-    }
-
-
-    public function parseTZPhone($phonenumber){
-        $phone="";
-       if(substr($phonenumber, 0,1)=="0" && strlen($phonenumber)==10){           
-        $phone="+255".substr($phonenumber, 1);
-
-       }else if(substr($phonenumber, 0,4)=="+255" && strlen($phonenumber)==10){
-        $phone=$phonenumber;
-
-       } else{
-        $phone="+255684905873";
-
-       }
-       return $phone;
-    }
 
 
 

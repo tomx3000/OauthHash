@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-use Auth,Response,DB;
+use Auth,Response,DB,Redirect,Exception;
 use App\User;
 use App\Mobileaccount;
 use App\Transaction;
@@ -20,6 +20,9 @@ use App\UserBankAccount;
 use App\UserCreditTransaction;
 use App\UserDebitTransaction;
 use App\UserMobileAccount;
+use Nexmo\Laravel\Facade\Nexmo;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 use App\HashCreditTransaction;
 
 
@@ -27,7 +30,7 @@ class CustomerApiController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware('cors');
+        // $this->middleware('cors');
 
     }
 
@@ -71,16 +74,16 @@ class CustomerApiController extends Controller
 	return $xml;
 
 	}
-	public function isCustomer($firstname,$secondname,$lastname,$accountnumber,$accounttype,$clientid){
+	public function isCustomer($firstname,$secondname,$lastname,$accountnumber,$accounttype,$clientid,$companyname){
 		error_log("check customer");
 		
-		$customer=Customer::where("firstname",strtolower($firstname))->where("secondname",strtolower($secondname))->where("lastname",strtolower($lastname))->where("accountnumber",$accountnumber)->where("accounttype",strtolower($accounttype))->where("clientid",$clientid)->get();
+		$customer=Customer::where("firstname",strtolower($firstname))->where("secondname",strtolower($secondname))->where("lastname",strtolower($lastname))->where("accountnumber",$accountnumber)->where("accounttype",strtolower($accounttype))->where("clientid",$clientid)->where("companyname",$companyname)->get();
 		return empty($customer);
 		
 	}
-	public function registerCustomer($firstname,$secondname,$lastname,$accountnumber,$companyname,$clientid){
+	public function registerCustomer($firstname,$secondname,$lastname,$accountnumber,$companyname,$clientid,$accounttype,$userid){
 		
-		if(!$this->isCustomer($firstname,$secondname,$lastname,$accountnumber,$companyname,$clientid)){
+		if(!$this->isCustomer($firstname,$secondname,$lastname,$accountnumber,$accounttype,$clientid,$companyname)){
 			error_log("registering customer");
 			$customer = new Customer;
 			$customer->firstname = strtolower($firstname);
@@ -88,14 +91,15 @@ class CustomerApiController extends Controller
 			$customer->lastname = strtolower($lastname);
 			// account number has to be unique
 			$customer->accountnumber = $accountnumber;
+			$customer->companyname=strtolower($companyname);
 
-			$customer->accounttype = strtolower($companyname);
+			$customer->accounttype = strtolower($accounttype);
 			// account type here implie compnay name eg mpesa,crdb
 			$customer->clientid = $clientid;
 
 			$clientrow = DB::table('oauth_clients')->where('id',$clientid)->first();
 
-			$customer->userid =$clientrow->user_id;
+			$customer->userid =$userid;
 
 			$customer->save();
 
@@ -103,7 +107,7 @@ class CustomerApiController extends Controller
 			return $customer;
 		}else{
 			error_log("customer present");
-			 $customer=Customer::where("firstname",strtolower($firstname))->where("secondname",strtolower($secondname))->where("lastname",strtolower($lastname))->where("accountnumber",$accountnumber)->where("accounttype",strtolower($companyname))->where("clientid",$clientid)->first();
+			 $customer=Customer::where("firstname",strtolower($firstname))->where("secondname",strtolower($secondname))->where("lastname",strtolower($lastname))->where("accountnumber",$accountnumber)->where("accounttype",strtolower($accounttype))->where("clientid",$clientid)->where("companyname",$companyname)->first();
 			 return $customer;
 		}
 		 
@@ -140,6 +144,7 @@ class CustomerApiController extends Controller
 		error_log("account reeiver found:id="+$maxval);
 		return $account;
 	}
+
 	public function payHash(){
 		// if hash payment via api is successfull
 		return true;
@@ -148,7 +153,7 @@ class CustomerApiController extends Controller
 		// if user payment via api is successfull
 		return true;
 	}
-	public function logUserCreditTransaction($receiveraccount,$amount,$description,$customer,$accounttype){
+	public function logUserCreditTransaction($receiveraccount,$amount,$description,$customer,$accounttype,$userid){
 		error_log("log transactions3");
 
 		$hashamount=(2*$amount)/100;
@@ -160,7 +165,7 @@ class CustomerApiController extends Controller
 		$usercredittransaction->receiveaccountid=$receiveraccount->id;
 		$usercredittransaction->amount=$useramount;
 		$usercredittransaction->description=$description;
-		$usercredittransaction->userid=$customer->userid;
+		$usercredittransaction->userid=$userid;
 		$usercredittransaction->accountreceivetype=$accounttype;
 
 		$usercredittransaction->save();
@@ -181,21 +186,30 @@ class CustomerApiController extends Controller
 	public function logUserDebitTransaction(){
 
 	}
-
-	public function customerPay(Request $request){
+	
+	public function customerPay(Request $request,$userid,$clientid){
 		error_log("new server hit");
-		$customer=$this->registerCustomer($request->get("firstname"),$request->get("secondname"),$request->get("lastname"),$request->get("accountnumber"),$request->get("companyname"),$request->get("clientid"));
-		error_log("customer created");
-		$account=$this->getAcountToReceivePayment($request->get("accounttype"),$request->get("clientid"),$request->get("companyname"));
-		error_log("account acquired");
-		// pay user and hash
+		$customer=$this->registerCustomer($request->get("firstname"),$request->get("secondname"),$request->get("lastname"),$request->get("accountnumber"),$request->get("company_name"),$clientid,$request->get("accounttype"),$userid);
 
-		// the log the transaction
-		$this->logUserCreditTransaction($account,(float)$request->get("amount"),$request->get("description"),$customer,$request->get("accounttype"));
-		error_log("transaction loged");
-		return Response::json("success");
+		//log in the item and price before executing payment
+        //link the customer with the item payerble
+        //use quantity field for with whole input to describe non item payable
+
+		$link=$this->registerItem($request->get("price_id"),0,$request->get("price"),$request->get("description"),$customer->id,$request->get("currency"));
+
+		return "success";
 
 	}
+	public function registerItem($itemname,$quantity,$price,$description,$customerid,$currency){
+
+		$itemid = DB::table('items')->insertGetId(
+    ['name' =>$itemname , 'quantity' => $quantity,'price'=>$price,'description'=>$description,'brand'=>$currency]);
+		// $linkid="something";
+    	$linkid = DB::table('customer_items')->insertGetId(
+    ['itemid' =>$itemid , 'customerid' => $customerid]);
+
+    	return $linkid;
+}
 
     public function oldcustomerPay(Request $request){
     	 $respotext="error";

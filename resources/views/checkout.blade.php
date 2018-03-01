@@ -34,7 +34,7 @@
                 </div>
               </div>
 
-                <button class="btn waves-effect waves-light" type="submit" name="action">Pay 500 USD</button>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Pay {{$price}} {{$currency}}</button>
               </form>
             </div>
           </div>

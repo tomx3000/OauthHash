@@ -34443,14 +34443,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.updateTransactionShowSpan(_vm.spanday)
       }
     }
-  }, [_vm._v("monkey")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("daily")]), _vm._v(" "), _c('button', {
     class: _vm.selectweekly,
     on: {
       "click": function($event) {
         _vm.updateTransactionShowSpan(_vm.spanweek)
       }
     }
-  }, [_vm._v("tom")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("weekly")]), _vm._v(" "), _c('button', {
     class: _vm.selectmonthly,
     on: {
       "click": function($event) {
