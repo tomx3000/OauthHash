@@ -10,7 +10,6 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="{{ asset('/css/server/styles.css') }}" rel="stylesheet">
 
         </style>
     </head>
@@ -21,8 +20,8 @@
           <div class="card darken-1">
             <div class="card-content">
               <!-- <h5><img src="/logo2.jpg" alt="hash logo" height="50" width="120"></h5> -->
-              <p style="font-weight: bold">Mobile, Wallet, Card Payment </p>
-             
+              <span style="font-weight: bold">Mobile, Wallet, Card Payment </span>
+              <span id="logo"></span>
             </div>
             <div class="card-action">
             <form id="checkoutform_user_details" action="/checkoutform_user_details" method="post">

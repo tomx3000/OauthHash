@@ -69,6 +69,29 @@ $("#checkoutform_password").on("submit",(e)=>{
                 });
 });
 
+$("#phone").keyup(function() {
+ var length = $(this).val().length;
+ if (length == 4 ) {
+   var text = $(this).val();
+   var subtext = text.substring(0, 4);
+   console.log(subtext);
+   if(subtext == "0652")
+   {
+    $('#logo').empty();
+    $('#logo').append('<img src="/images/tigo.png" alt="logo" height="25" width="25">');
+   }
+   if(subtext == "0689" || subtext == "0684")
+   {
+    $('#logo').empty();
+    $('#logo').append('<img src="/images/airtel.png" alt="logo" height="70" width="70">');
+   }
+   if(subtext == "0755")
+   {
+    $('#logo').empty();
+    $('#logo').append('<img src="/images/vodacom.jpg" alt="logo" height="70" width="70">');
+   }
+  }
+});
 
 
 

@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>HAsh - Home</title>
+        <title>HAsh | Home</title>
 
         <meta name="keywords" content="HAsh" />
         <meta name="description" content="All in one wallet payment processor">
@@ -61,7 +61,7 @@
                         <div class="header-row">
                             <div class="header-column">
                                 <div class="header-logo">
-                                    <a href="index.html">
+                                    <a href="/">
                                         <img alt="Porto" width="100" height="100" data-sticky-width="50" data-sticky-height="50" data-sticky-top="50" src="assets/img/logo.png">
                                     </a>
                                 </div>
@@ -82,7 +82,7 @@
                                         <ul class="nav nav-pills">
 
                                             <li class="hidden-xs">
-                                                <a href="https://hash.zatana.net/register"><i class="fa fa-user"></i><strong>SIGN IN<strong/></a>
+                                                <a href="http://hash.zatana.net/login"><i class="fa fa-user"></i><strong>SIGN IN<strong/></a>
                                             </li>
 
                                         </ul>
@@ -98,36 +98,43 @@
                                             <nav>
                                                 <ul class="nav nav-pills" id="mainNav">
                                                     <li class="hidden-xs active">
-                                                        <a  href="index.html">
+                                                        <a  href="/">
                                                             HOME
                                                         </a>
 
                                                     </li>
 
                                                     <li class="hidden-xs">
-                                                        <a  href="index-classic.html">
+                                                        <a  href="/product">
                                                             Product
                                                         </a>
 
                                                     </li>
 
-                                                    <li class="hidden-xs">
+                                                   <!--  <li class="hidden-xs">
                                                         <a  href="page-services.html">
                                                             Services
                                                         </a>
 
-                                                    </li>
+                                                    </li> -->
 
                                                     <li class="hidden-xs">
-                                                        <a  href="page-maintenance-mode.html">
+                                                        <a  href="/pricing">
                                                             Pricing
                                                         </a>
 
                                                     </li>
 
+                                                    <li class="hidden-xs">
+                                                        <a  href="http://doc.zatana.net">
+                                                            Documentation
+                                                        </a>
+
+                                                    </li>
+
 
                                                     <li class="hidden-xs">
-                                                        <a  href="https://hash.zatana.net/register">
+                                                        <a  href="/register">
                                                             SIGN UP
                                                         </a>
 
@@ -268,10 +275,8 @@
                                     style="z-index: 5"
                                     data-transform_in="y:[100%];opacity:0;s:500;"> receive payments beyond your neighborhood.</div>
 
-                                <a href="https://hash.zatana.net/register"target="_blank" class="tp-caption btn btn-lg btn-primary btn-slider-action"
-                                    data-hash
+                                <a href="http://hash.zatana.net/register" target="http://hash.zatana.net/register" class="tp-caption btn btn-lg btn-primary btn-slider-action"
                                     data-hash-offset="85"
-                                    href="#home-intro"
                                     data-x="center" data-hoffset="0"
                                     data-y="center" data-voffset="80"
                                     data-start="2200"
@@ -294,12 +299,12 @@
                             <div class="col-md-8">
                                 <p>
                                     The fastest way to  receive online payments from  <em>E-Wallets</em>
-                                    <span>Check out our options and features included. <a href="shop-sidebar.html"><em>view demo</em></a></span>
+                                    <span>Check out our options and features included. <a href="/demo"><em>view demo</em></a></span>
                                 </p>
                             </div>
                             <div class="col-md-4">
                                 <div class="mt-lg mb-xl">
-                                    <a href="#demos" data-hash class="btn btn-primary mr-md appear-animation" data-appear-animation="fadeInDown" data-appear-animation-delay="300">DOCUMENTATION</a> <span class="appear-animation" data-appear-animation="fadeInDown" data-appear-animation-delay="600">
+                                    <a href="http://doc.zatana.net" class="btn btn-primary mr-md appear-animation" data-appear-animation="fadeInDown" data-appear-animation-delay="300">DOCUMENTATION</a> 
                                 </div>
                             </div>
                         </div>
@@ -429,7 +434,7 @@
                                     <p class="lead mb-xl"> receive Payments,Make payments and make chargebacks</p>
                                 </div>
                                 <div class="call-to-action-btn">
-                                    <a href="https://hash.zatana.net/register" target="_blank" class="btn btn-lg btn-primary btn-primary-scale-2 mr-md">CREATE HAsh ACCOUNT.</a>
+                                    <a href="http://hash.zatana.net/register" target="_blank" class="btn btn-lg btn-primary btn-primary-scale-2 mr-md">CREATE HAsh ACCOUNT.</a>
 
                                 </div>
                             </div>
@@ -570,7 +575,7 @@
 
                                 </div>
                                 <div class="call-to-action-btn">
-                                    <a href="https://hash.zatana.net/register" target="_blank" class="btn btn-lg btn-primary btn-primary-scale-2 mr-md">Sign up</a>
+                                    <a href="http://hash.zatana.net/register" target="http://hash.zatana.net/register" class="btn btn-lg btn-primary btn-primary-scale-2 mr-md">Sign up</a>
 
                                 </div>
                             </div>
@@ -645,7 +650,7 @@
                                     <p class="lead mb-xl">Get in touch, or create an account.</p>
                                 </div>
                                 <div class="call-to-action-btn">
-                                    <a href="https://hash.zatana.net/register" target="_blank" class="btn btn-lg btn-primary"><i class="fa fa-cark mr-xs"></i> SIGN UP HAsh ACCOUNT </a>
+                                    <a href="http://hash.zatana.net/register" target="_blank" class="btn btn-lg btn-primary"><i class="fa fa-cark mr-xs"></i> SIGN UP HAsh ACCOUNT </a>
 
                                 </div>
                             </div>
@@ -707,12 +712,12 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-1">
-                                <a href="index.html" class="logo">
+                                <a href="/" class="logo">
                                     <img alt="Porto Website Template" class="img-responsive" src="assets/img/logo-footer.png">
                                 </a>
                             </div>
                             <div class="col-md-7">
-                                <p>© Copyright 2018. All Rights Reserved.</p>
+                                <p>© Copyright <?php echo date("Y"); ?>. All Rights Reserved.</p>
                             </div>
                             <div class="col-md-4">
                                 <nav id="sub-menu">

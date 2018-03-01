@@ -44,7 +44,8 @@ class DemoShopController extends Controller
 				    "accountnumber"=>"0684905873",
 				    "accounttype"=>"mobile",
 				    "price_id"=>"434",
-				    "price"=>"50",
+
+				    "price"=>$request->get("amount"),
 				    "currency"=>"USD",
 				    "client_id" => "3",
 				    "description" => "affordable",
