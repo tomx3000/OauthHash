@@ -78,7 +78,7 @@
 
 
 											<li class="hidden-xs">
-												<a href="https://hash.zatana.net/register"><i class="fa fa-user"></i><strong>SIGN IN<strong/></a>
+												<a href="https://hash.zatana.net/login"><i class="fa fa-user"></i><strong>SIGN IN<strong/></a>
 											</li>
 										</ul>
 									</nav>
@@ -169,9 +169,11 @@
 								<ul class="products product-thumb-info-list" data-plugin-masonry data-plugin-options='{"layoutMode": "fitRows"}'>
 
 									<li class="col-md-4 col-sm-6 col-xs-12 product">
-										<a href="shop-product-sidebar.html">
+										<a href="#">
 											<!-- <span class="onsale">Buy</span> -->
 											<form action="/demo" method="post">
+												<input type="hidden" name="_token" value="{{ Session::token() }}" />
+												<input type="hidden" name="amount" value="85" />
 											  <input class="onsale" type="submit" value="Buy">
 											</form>   
 										</a>
@@ -179,7 +181,7 @@
 											<a href="shop-cart.html" class="add-to-cart-product">
 												<span><i class="fa fa-shopping-cart"></i>Shop with HAsh</span>
 											</a>
-											<a href="shop-product-sidebar.html">
+											<a href="#">
 												<span class="product-thumb-info-image">
 													<span class="product-thumb-info-act">
 														<span class="product-thumb-info-act-left"><em>View</em></span>
@@ -189,7 +191,7 @@
 												</span>
 											</a>
 											<span class="product-thumb-info-content">
-												<a href="shop-product-sidebar.html">
+												<a href="#">
 													<h4 class="heading-primary">Nike+</h4>
 													<span class="price">
 														<span class="amount">$85</span>
@@ -199,14 +201,19 @@
 										</span>
 									</li>
 									<li class="col-md-4 col-sm-6 col-xs-12 product">
-										<a href="shop-product-sidebar.html">
-											<span class="onsale">Buy</span>
+										<a href="#">
+											<!-- <span class="onsale">Buy</span> -->
+											<form action="/demo" method="post">
+												<input type="hidden" name="_token" value="{{ Session::token() }}" />
+												<input type="hidden" name="amount" value="50" />
+											  <input class="onsale" type="submit" value="Buy">
+											</form>   
 										</a>
 										<span class="product-thumb-info">
 											<a href="shop-cart.html" class="add-to-cart-product">
 												<span><i class="fa fa-shopping-cart"></i> Shop with HAsh</span>
 											</a>
-											<a href="shop-product-sidebar.html">
+											<a href="#">
 												<span class="product-thumb-info-image">
 													<span class="product-thumb-info-act">
 														<span class="product-thumb-info-act-left"><em>View</em></span>
@@ -216,7 +223,7 @@
 												</span>
 											</a>
 											<span class="product-thumb-info-content">
-												<a href="shop-product-sidebar.html">
+												<a href="#">
 													<h4 class="heading-primary">Cotton sweater</h4>
 													<span class="price">
 														<span class="amount">$50</span>
@@ -288,13 +295,13 @@
 									<li>
 										<div class="post-image">
 											<div class="img-thumbnail">
-												<a href="shop-product-sidebar.html">
+												<a href="#">
 													<img alt="" width="60" height="60" class="img-responsive" src="assets/img/products/product-2.jpg">
 												</a>
 											</div>
 										</div>
 										<div class="post-info">
-											<a href="shop-product-sidebar.html">Nike+</a>
+											<a href="#">Nike+</a>
 											<div class="post-meta">
 												$85
 											</div>
@@ -303,13 +310,13 @@
 									<li>
 										<div class="post-image">
 											<div class="img-thumbnail">
-												<a href="shop-product-sidebar.html">
+												<a href="#">
 													<img alt="" width="60" height="60" class="img-responsive" src="assets/img/products/product-3.jpg">
 												</a>
 											</div>
 										</div>
 										<div class="post-info">
-											<a href="shop-product-sidebar.html">Cotton Sweater</a>
+											<a href="#">Cotton Sweater</a>
 											<div class="post-meta">
 												$50
 											</div>

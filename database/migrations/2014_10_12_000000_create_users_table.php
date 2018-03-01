@@ -1,4 +1,4 @@
-<?php
+ww<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('accountpriorityusage')->nullable();
             $table->integer('transactionshowspan')->nullable();
+            $table->integer('privillage')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

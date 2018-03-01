@@ -82,7 +82,7 @@
 										<ul class="nav nav-pills">
 
 											<li class="hidden-xs">
-												<a href="http://hash.zatana.net/register"><i class="fa fa-user"></i><strong>SIGN IN<strong/></a>
+												<a href="http://hash.zatana.net/login"><i class="fa fa-user"></i><strong>SIGN IN<strong/></a>
 											</li>
 
 										</ul>
