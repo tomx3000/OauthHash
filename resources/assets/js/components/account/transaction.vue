@@ -10,8 +10,8 @@
     <li><a data-toggle="tab" href="#menu2">Balance</a></li>
     <li class="pull-right"> <input type="text" v-model="searchtext" placeholder="search"></li>	
   </ul>
-<button v-bind:class="selectdaily" v-on:click="updateTransactionShowSpan(spanday)">daily</button>
-<button v-bind:class="selectweekly" v-on:click="updateTransactionShowSpan(spanweek)">weekly</button>
+<button v-bind:class="selectdaily" v-on:click="updateTransactionShowSpan(spanday)">monkey</button>
+<button v-bind:class="selectweekly" v-on:click="updateTransactionShowSpan(spanweek)">tom</button>
 <button v-bind:class="selectmonthly" v-on:click="updateTransactionShowSpan(spanmonth)">monthly</button>
 <button v-bind:class="selectyearly" v-on:click="updateTransactionShowSpan(spanyear)">yearly</button>
   <div class="tab-content">
