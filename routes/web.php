@@ -11,47 +11,18 @@
 |
 */
 
- use GuzzleHttp\Client;
- use GuzzleHttp\Exception\ServerException;
- use GuzzleHttp\Exception\ConnectException;
- use Response,redirect;
 
 Route::get('/', function () {
     return view('welcome');
 });
 // views for the landing page created by lymo
-Route::get('/product', function () {
-    return view('product');
-});
-Route::get('/pricing', function () {
-    return view('pricing');
-});
-Route::get('/demo', function () {
-    return view('demo');
-});
-Route::post('/demo', function () {
-    $http = new Client(['base_uri' => 'http://hash.zatana.net']);
-	 $responsez = $http->post('/oauth/token', [
-	     'form_params' => [
-	         'grant_type' => 'client_credentials',
-	         'client_id' => '3',
-	         'client_secret' => 'fE86nu2AGdL6wdL3Gnzg02EvPfLuBUizpf7WTif0'
-	     ],
-	 ]);
-	 $resposArr=json_decode((string)$responsez->getBody(), true);
 
-	 $response = $http->request('POST', '/api/checkoutform',
-	   ['headers' => [
-	        'Authorization' => 'Bearer '.$resposArr['access_token'],
-	   ],
-	   'form_params'=>["firstname"=>"thomas","phonenumber"=>"0684905473","client_id"=>"3"]
+Route::get('/product',['as'=>'product','uses'=>'DemoShopController@product']);
+Route::get('/pricing',['as'=>'pricing','uses'=>'DemoShopController@pricing']);
+Route::get('/demo',['as'=>'getdemo','uses'=>'DemoShopController@getdemo']);
+Route::post('/demo',['as'=>'postdemo','uses'=>'DemoShopController@postdemo']);
 
-	 ]);
 
-	$urlarr= json_decode((string)$response->getBody(), true);
-	$url=$urlarr['windowUrl'];
-	 return redirect($url);
-});
 //
 Route::get('/sample',['as'=>'sample','uses'=>'CustomerApiController@sample']);
 Route::post('/sample/testxml',['as'=>'testxml','uses'=>'CustomerApiController@xmlTestReceive']);
@@ -85,16 +56,16 @@ Route::get('/sendsms', 'HomeController@sendSMS')->name('sendsms');
 
 
 // temporary user payment
-Route::post('checkoutform_user_details',['as'=>'redirect.checkoutform_user_details','uses'=>'HomeController@redirectCheckoutformUserDetails']);
+Route::post('checkoutform_user_details',['as'=>'redirect.checkoutform_user_details','uses'=>'LoginController@redirectCheckoutformUserDetails']);
 
-Route::post('checkoutform_verifyOTP',['as'=>'redirect.checkoutform_verifyOTP','uses'=>'HomeController@redirectCheckoutformVerifyOTP']);
+Route::post('checkoutform_verifyOTP',['as'=>'redirect.checkoutform_verifyOTP','uses'=>'LoginController@redirectCheckoutformVerifyOTP']);
 
-Route::post('checkoutform_password',['as'=>'redirect.checkoutform_password','uses'=>'HomeController@redirectCheckoutformPassword']);
+Route::post('checkoutform_password',['as'=>'redirect.checkoutform_password','uses'=>'LoginController@redirectCheckoutformPassword']);
 
-Route::get('checkout',['as'=>'view.checkout','uses'=>'HomeController@viewCheckout']);
+Route::get('checkout',['as'=>'view.checkout','uses'=>'LoginController@viewCheckout']);
 
-Route::get('checkout_verifyOTP/{erid}',['as'=>'view.checkout_verifyOTP','uses'=>'HomeController@viewCheckoutVerifyOTP']);
+Route::get('checkout_verifyOTP/{erid}',['as'=>'view.checkout_verifyOTP','uses'=>'LoginController@viewCheckoutVerifyOTP']);
 
-Route::get('checkout_password',['as'=>'view.checkout_password','uses'=>'HomeController@viewCheckoutPassword']);
+Route::get('checkout_password',['as'=>'view.checkout_password','uses'=>'LoginController@viewCheckoutPassword']);
 
 
